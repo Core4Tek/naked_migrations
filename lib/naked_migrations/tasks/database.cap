@@ -8,7 +8,7 @@ namespace :db do
       or /config/deploy folders. The default template matches
       the template for config/database.yml file shipped with Rails.
   DESC
-  task :setup do
+  task :config do
     on roles :db, exclude: :no_release do
       # Ask for database parameters
       ask(:database_name, 'axiskey_registration')
