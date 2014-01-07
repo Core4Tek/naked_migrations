@@ -1,6 +1,6 @@
 # Naked Migrations
 
-A thin wrapper for rosenfeld's {active_record_migrations}(https://github.com/rosenfeld/active_record_migrations) gem
+A thin wrapper for rosenfeld's [active_record_migrations](https://github.com/rosenfeld/active_record_migrations) gem
 with some additional tasks for creating the appropriate database config files for development and deployment.
 
 ## Prerequisites
@@ -39,7 +39,10 @@ Execute the following and follow the prompts:
 rake db:config
 ```
 
-For more info about the rake tasks provided by active_record_migrations
+For more info about the other rake tasks made available by this library, check out:
+
+* [active_record_migrations](https://github.com/rosenfeld/active_record_migrations)
+* [Migrations Guide](http://guides.rubyonrails.org/migrations.html)
 
 ## Deployment
 
