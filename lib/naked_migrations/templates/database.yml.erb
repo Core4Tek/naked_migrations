@@ -1,0 +1,15 @@
+base: &base
+  adapter: mysql2
+  encoding: utf8
+  username: <%= fetch(:database_user) %>
+  password: <%= fetch(:database_password) %>
+  host: <%= fetch(:database_host) %>
+  port: <%= fetch(:database_port) %>
+
+development:
+  <<: *base
+  database: <%= fetch(:database_name) %>
+
+test:
+  <<: *base
+  database: <%= fetch(:database_name) %>_test

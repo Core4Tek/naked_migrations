@@ -1,0 +1,38 @@
+namespace :db do
+
+  desc <<-DESC
+      Creates the database.yml configuration file in shared path.
+
+      By default, this task uses a template unless a template
+      called database.yml.erb is found either is :template_dir
+      or /config/deploy folders. The default template matches
+      the template for config/database.yml file shipped with Rails.
+  DESC
+  task :setup do
+    on roles :db, exclude: :no_release do
+      # Ask for database parameters
+      ask(:database_name, 'axiskey_registration')
+      ask(:database_user, 'axiskey')
+      ask(:database_password, '')
+      ask(:database_host, 'localhost')
+      ask(:database_port, '3306')
+
+      location = fetch(:template_dir, 'config/deploy') + '/database.yml.erb'
+      config = ERB.new(File.read(location))
+
+      upload! StringIO.new(config.result(binding)), "#{shared_path}/config/database.yml"
+    end
+  end
+
+  desc <<-DESC
+      [internal] Updates the symlink for database.yml file to the just deployed release.
+  DESC
+  task :symlink do
+    on roles :db, exclude: :no_release do
+      execute "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    end
+  end
+
+  after 'deploy:symlink:release', 'db:symlink'
+  after 'deploy',                 'deploy:migrate'
+end
