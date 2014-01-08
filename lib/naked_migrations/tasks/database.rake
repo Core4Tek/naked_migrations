@@ -1,4 +1,5 @@
 require 'highline/import'
+require 'naked_migrations/import'
 
 namespace :db do
   desc 'Create the database config file'
@@ -7,13 +8,12 @@ namespace :db do
 
     database_config_file = configuration.config_file
     database_config_template = configuration.config_template
-    project_name = File.dirname('../') # Parent directory is the default database name
 
-    abort if File.exists?(database_config_file) && !agree('The database config file already exists. Overwrite?')
+    abort if File.exists?(database_config_file) && !agree('The database config file already exists. Overwrite? ')
 
     set(:database_host, ask('Server name: ') { |q| q.default = 'localhost' })
     set(:database_port, ask('Port number: ') { |q| q.default = '3306' })
-    set(:database_name, ask('Database Name: ') { |q| q.default = project_name })
+    set(:database_name, ask('Database Name: ') { |q| q.default = configuration.default_database_name })
     set(:database_user, ask('Username: ') { |q| q.default = 'root' })
     set(:database_password, ask('Password: ') { |q| q.default = '' })
 

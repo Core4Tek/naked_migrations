@@ -2,23 +2,19 @@ namespace :db do
 
   desc <<-DESC
       Creates the database.yml configuration file in shared path.
-
-      By default, this task uses a template unless a template
-      called database.yml.erb is found either is :template_dir
-      or /config/deploy folders. The default template matches
-      the template for config/database.yml file shipped with Rails.
   DESC
   task :config do
     on roles :db, exclude: :no_release do
+      configuration = NakedMigrations::Configuration.instance
+
       # Ask for database parameters
-      ask(:database_name, 'axiskey_registration')
-      ask(:database_user, 'axiskey')
-      ask(:database_password, '')
       ask(:database_host, 'localhost')
       ask(:database_port, '3306')
+      ask(:database_name, configuration.default_database_name)
+      ask(:database_user, 'axiskey')
+      ask(:database_password, '')
 
-      location = fetch(:template_dir, 'config/deploy') + '/database.yml.erb'
-      config = ERB.new(File.read(location))
+      config = ERB.new(File.read(configuration.config_template))
 
       upload! StringIO.new(config.result(binding)), "#{shared_path}/config/database.yml"
     end

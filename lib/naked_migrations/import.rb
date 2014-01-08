@@ -1,5 +1,5 @@
 require 'forwardable'
-require 'lib/naked_migrations'
+require 'naked_migrations/configuration'
 
 $configuration = NakedMigrations::Configuration.instance
 
