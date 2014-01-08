@@ -10,6 +10,14 @@ development:
   <<: *base
   database: <%= fetch(:database_name) %>
 
+qa:
+  <<: *base
+  database: <%= fetch(:database_name) %>
+
+production:
+  <<: *base
+  database: <%= fetch(:database_name) %>
+
 test:
   <<: *base
   database: <%= fetch(:database_name) %>_test
